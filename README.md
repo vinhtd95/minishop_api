@@ -24,7 +24,7 @@ before Feature 10, since customers need a token too to open the chat socket.
 **Goal:** let interns hit the API from Postman/curl without a browser session cookie.
 
 **Tasks**
-- [ ] Add `api_token` to `User` via `has_secure_token :api_token`
+- [x] Add `api_token` to `User` via `has_secure_token :api_token`
 - [ ] `Api::V1::SessionsController#create` (`POST /api/v1/login`) authenticates email/password, returns token
 - [ ] `Api::V1::BaseController` with `before_action :authenticate_api_user!` — reads header, loads user by token
 - [ ] `GET /api/v1/me` returns the current user (sanity-check endpoint)
