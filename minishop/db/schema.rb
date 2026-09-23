@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_21_042314) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_23_174233) do
+  create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.integer "category_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name"
+    t.decimal "price"
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_products_on_category_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "api_token"
     t.datetime "created_at", null: false
@@ -20,4 +36,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_21_042314) do
     t.datetime "updated_at", null: false
     t.index ["api_token"], name: "index_users_on_api_token", unique: true
   end
+
+  add_foreign_key "products", "categories"
 end
