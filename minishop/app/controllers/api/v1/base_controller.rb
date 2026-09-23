@@ -11,4 +11,11 @@ class Api::V1::BaseController < ApplicationController
       render json: {error: "Unauthorized or invalid token"}, status: :unauthorized
     end
   end
+
+  def require_admin! 
+    unless current_user&.admin?
+      render json: {error: "Forbidden"}, status: :forbidden
+    end
+  end
+  
 end
