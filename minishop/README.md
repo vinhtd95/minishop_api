@@ -67,9 +67,9 @@ before Feature 10, since customers need a token too to open the chat socket.
 **Goal:** group products.
 
 **Tasks**
-- [ ] `Category` model (`name`, presence + uniqueness)
-- [ ] Migration: add `category_id` (nullable, indexed) to `products`; `Product belongs_to :category, optional: true`
-- [ ] `Api::V1::CategoriesController` — index/show public, create/update/destroy admin-only
+- [x] `Category` model (`name`, presence + uniqueness)
+- [x] Migration: add `category_id` (nullable, indexed) to `products`; `Product belongs_to :category, optional: true`
+- [x] `Api::V1::CategoriesController` — index/show public, create/update/destroy admin-only
 
 **Acceptance criteria**
 - `GET /api/v1/categories` works with no auth
