@@ -93,9 +93,9 @@ before Feature 10, since customers need a token too to open the chat socket.
 **Goal:** make the existing product index usable at scale.
 
 **Tasks**
-- [ ] Add `category_id` and `q` (name search) query params to `ProductsController#index`
-- [ ] Add pagination (Kaminari or Pagy), `page`/`per_page` params, default 10, cap 50
-- [ ] Response includes a `meta` block; include `category` in product JSON
+- [x] Add `category_id` and `q` (name search) query params to `ProductsController#index`
+- [x] Add pagination (Kaminari or Pagy), `page`/`per_page` params, default 10, cap 50
+- [x] Response includes a `meta` block; include `category` in product JSON
 
 **Acceptance criteria**
 - `?category_id=2` returns only that category's products
