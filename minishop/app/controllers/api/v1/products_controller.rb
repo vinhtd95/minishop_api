@@ -1,7 +1,7 @@
 class Api::V1::ProductsController < Api::V1::BaseController
   skip_before_action :authenticate_api_user!, only: [:index]
   def index 
-    #query params xuat hien tren URL la q va category_id
+    #query params xuat hien tren URL la q va category_id, include để giúp tăng tốc độ truy vấn 
     base_scope = Product.includes(:category).search_by_name(params[:q]).by_category(params[:category_id])
 
     #xử lý tham số page và per_page (default 10, max 50, min 1)
