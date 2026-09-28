@@ -20,6 +20,9 @@ Rails.application.routes.draw do
       resource :cart, only: [:show], controller: 'cart' do #do nguoi dung chi co duy nhat 1 gio hang -> resource not resources 
         resources :items, only: [:create, :update, :destroy], controller: 'cart_items'
       end
+
+      #order routes
+      resources :orders, only: [:index, :show, :create]
     end
   end
 end
