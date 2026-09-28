@@ -5,5 +5,14 @@ class Order < ApplicationRecord
 
   validates :total_cents, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  
+  VALID_TRANSITIONS = {
+    "pending"   => %w[shipped cancelled],
+    "shipped"   => %w[delivered],
+    "delivered" => [],
+    "cancelled" => []
+  }.freeze
+
+  def valid_transition_to?(new_status)
+    VALID_TRANSITIONS[status]&.include?(new_status.to_s)
+  end
 end

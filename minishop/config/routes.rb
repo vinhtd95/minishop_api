@@ -23,6 +23,11 @@ Rails.application.routes.draw do
 
       #order routes
       resources :orders, only: [:index, :show, :create]
+
+      #admin routes 
+      namespace :admin do 
+        resources :orders, only: [:index, :update]
+      end
     end
   end
 end
