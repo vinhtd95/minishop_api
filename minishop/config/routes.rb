@@ -15,6 +15,11 @@ Rails.application.routes.draw do
 
       #product routes 
       get '/products', to: 'products#index'
+
+      #cart routes 
+      resource :cart, only: [:show], controller: 'cart' do #do nguoi dung chi co duy nhat 1 gio hang -> resource not resources 
+        resources :items, only: [:create, :update, :destroy], controller: 'cart_items'
+      end
     end
   end
 end

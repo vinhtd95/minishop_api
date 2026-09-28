@@ -1,13 +1,22 @@
 # db/seeds.rb
 
 puts "=== Clearing old data ==="
+# Dọn dẹp bảng theo thứ tự để không dính ràng buộc khóa ngoại
+CartItem.destroy_all if defined?(CartItem)
+Cart.destroy_all if defined?(Cart)
 Product.destroy_all
 Category.destroy_all
 User.destroy_all
 
 puts "=== Creating Users ==="
-# Customer
+# Customer test (mặc định)
 customer = User.find_or_create_by!(email: "test@example.com") do |user|
+  user.password = "password123"
+  user.role = :customer
+end
+
+# Customer thứ 2 (dùng để test case bảo mật Feature 5: User A không xem/sửa được cart của User B)
+customer2 = User.find_or_create_by!(email: "customer2@example.com") do |user|
   user.password = "password123"
   user.role = :customer
 end
@@ -23,42 +32,28 @@ cat_clothes  = Category.create!(name: "Quần áo & Thời trang")
 cat_drinks   = Category.create!(name: "Đồ uống & Giải khát")
 cat_snacks   = Category.create!(name: "Bánh kẹo & Ăn vặt")
 cat_personal = Category.create!(name: "Hóa mỹ phẩm & Chăm sóc cá nhân")
-cat_empty    = Category.create!(name: "Gia dụng & Đời sống") # Dùng để test Category không có sản phẩm
+cat_empty    = Category.create!(name: "Gia dụng & Đời sống")
 
 puts "=== Creating Products ==="
 
-# 1. Danh mục QUẦN ÁO & THỜI TRANG (Phục vụ test tìm kiếm 'shirt', 'Shirt', 'SHIRT' case-insensitive)
-Product.create!([
-  { name: "Áo thun nam Classic T-Shirt", description: "Áo thun cotton 100% thoáng mát", price: 15.99, category: cat_clothes },
-  { name: "Áo sơ mi công sở Oxford SHIRT", description: "Sơ mi dài tay chống nhăn", price: 29.50, category: cat_clothes },
-  { name: "Áo Polo Nam Sport Shirt", description: "Áo polo thể thao co giãn 4 chiều", price: 22.00, category: cat_clothes },
-  { name: "Quần Jeans Slim Fit", description: "Quần denim xanh thời trang", price: 39.99, category: cat_clothes },
-  { name: "Áo khoác Blazer nữ", description: "Thích hợp đi làm và đi chơi", price: 45.00, category: cat_clothes },
-  { name: "Áo Hoodie Fleece Unisex", description: "Áo nỉ nón nỉ ấm áp mùa đông", price: 32.50, category: cat_clothes }
-])
+p1 = Product.create!(name: "Áo thun nam Classic T-Shirt", description: "Áo thun cotton 100% thoáng mát", price: 15.99, category: cat_clothes)
+p2 = Product.create!(name: "Áo sơ mi công sở Oxford SHIRT", description: "Sơ mi dài tay chống nhăn", price: 29.50, category: cat_clothes)
+p3 = Product.create!(name: "Áo Polo Nam Sport Shirt", description: "Áo polo thể thao co giãn 4 chiều", price: 22.00, category: cat_clothes)
+p4 = Product.create!(name: "Quần Jeans Slim Fit", description: "Quần denim xanh thời trang", price: 39.99, category: cat_clothes)
+p5 = Product.create!(name: "Áo khoác Blazer nữ", description: "Thích hợp đi làm và đi chơi", price: 45.00, category: cat_clothes)
+p6 = Product.create!(name: "Áo Hoodie Fleece Unisex", description: "Áo nỉ nón nỉ ấm áp mùa đông", price: 32.50, category: cat_clothes)
 
-# 2. Danh mục ĐỒ UỐNG & GIẢI KHÁT
-Product.create!([
-  { name: "Sữa tươi tiệt trùng Vinamilk 1L", description: "Sữa tươi nguyên chất 100%", price: 2.50, category: cat_drinks },
-  { name: "Nước ngọt Coca-Cola 320ml", description: "Lốc 6 lon giải khát", price: 4.20, category: cat_drinks },
-  { name: "Cà phê hòa tan Trung Nguyên G7", description: "Hộp 21 gói đậm đà", price: 3.80, category: cat_drinks },
-  { name: "Trà xanh C2 hương chanh 455ml", description: "Chai giải nhiệt mùa hè", price: 0.60, category: cat_drinks }
-])
+p7 = Product.create!(name: "Sữa tươi tiệt trùng Vinamilk 1L", description: "Sữa tươi nguyên chất 100%", price: 2.50, category: cat_drinks)
+p8 = Product.create!(name: "Nước ngọt Coca-Cola 320ml", description: "Lốc 6 lon giải khát", price: 4.20, category: cat_drinks)
+p9 = Product.create!(name: "Cà phê hòa tan Trung Nguyên G7", description: "Hộp 21 gói đậm đà", price: 3.80, category: cat_drinks)
 
-# 3. Danh mục BÁNH KẸO & ĂN VẶT
 Product.create!([
   { name: "Snack khoai tây Lay's vị Tự Nhiên", description: "Gói lớn 95g giòn rụm", price: 1.20, category: cat_snacks },
   { name: "Bánh ChocoPie Orion", description: "Hộp 12 cái phủ socola", price: 3.50, category: cat_snacks },
-  { name: "Kẹo dẻo Haribo Goldbears", description: "Gói 80g nhập khẩu", price: 1.80, category: cat_snacks }
+  { name: "Dầu gội Clear Bạc Hà 630g", description: "Sạch gàu mát lạnh", price: 8.90, category: cat_personal }
 ])
 
-# 4. Danh mục HÓA MỸ PHẨM
-Product.create!([
-  { name: "Dầu gội Clear Bạc Hà 630g", description: "Sạch gàu mát lạnh", price: 8.90, category: cat_personal },
-  { name: "Sữa tắm Lifebuoy Bảo Vệ Vượt Trội", description: "Chai 850g diệt khuẩn", price: 7.50, category: cat_personal }
-])
-
-# 5. Tạo thêm các sản phẩm phụ để tổng số lượng > 20 sản phẩm (phục vụ test phân trang page=1, page=2, page=3)
+# Sản phẩm phụ test phân trang
 10.times do |i|
   Product.create!(
     name: "Sản phẩm siêu thị #{i + 1}",
@@ -68,9 +63,24 @@ Product.create!([
   )
 end
 
+puts "=== Creating Seed Cart & Cart Items (Feature 5) ==="
+# Khởi tạo giỏ hàng cho customer test@example.com
+cart = Cart.create!(user: customer)
+
+# Thêm sẵn 2 sản phẩm vào giỏ để test API GET /api/v1/cart
+CartItem.create!(cart: cart, product: p1, quantity: 2) # 2 x 15.99 = 31.98 -> 3198 cents
+CartItem.create!(cart: cart, product: p8, quantity: 1) # 1 x 4.20  = 4.20  -> 420 cents
+
+# Khởi tạo giỏ hàng cho customer2@example.com (Dùng để test tính năng bảo mật 404)
+cart2 = Cart.create!(user: customer2)
+CartItem.create!(cart: cart2, product: p2, quantity: 1)
+
 puts "=== Seeds loaded successfully! ==="
-puts "Customer: test@example.com / password123"
-puts "Admin:    admin@example.com / admin123"
+puts "Customer 1: test@example.com / password123 (Cart ID: #{cart.id})"
+puts "Customer 2: customer2@example.com / password123 (Cart ID: #{cart2.id})"
+puts "Admin:      admin@example.com / admin123"
 puts "Total Users: #{User.count}"
 puts "Total Categories: #{Category.count}"
 puts "Total Products: #{Product.count}"
+puts "Total Carts: #{Cart.count}"
+puts "Total Cart Items: #{CartItem.count}"
