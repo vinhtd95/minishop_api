@@ -29,7 +29,7 @@ class Product < ApplicationRecord
   end
 
   #count review
-  def review_count 
+  def reviews_count 
     reviewed_items = self.order_items.where.not(score: nil)
     total_count = reviewed_items.count 
     return total_count 

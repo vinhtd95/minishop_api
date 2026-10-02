@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       get '/me', to: 'sessions#show'
 
       #category routes
-      get    '/categories',     to: 'categories#index'   
+      get    '/categories',     to: 'categories#index'
       get    '/categories/:id', to: 'categories#show'    
       post   '/categories',     to: 'categories#create' 
       patch  '/categories/:id', to: 'categories#update'  
@@ -27,6 +27,11 @@ Rails.application.routes.draw do
       #admin routes 
       namespace :admin do 
         resources :orders, only: [:index, :update]
+      end
+
+      #review rating
+      resources :products, only: [:index, :show] do
+        resources :reviews, only: [:index, :create]
       end
     end
   end

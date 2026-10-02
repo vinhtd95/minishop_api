@@ -84,3 +84,16 @@ puts "Total Categories: #{Category.count}"
 puts "Total Products: #{Product.count}"
 puts "Total Carts: #{Cart.count}"
 puts "Total Cart Items: #{CartItem.count}"
+
+puts "=== Creating Seed Orders for Feature 8 (Reviews) ==="
+
+# Đơn hàng 1: test@example.com đã mua p1 (chưa đánh giá) và p2 (đã đánh giá)
+order1 = Order.create!(user: customer, status: :delivered, total_cents: 4549)
+
+# p1 chưa có score -> Sẵn sàng cho test POST 201
+OrderItem.create!(order: order1, product: p1, quantity: 1, unit_price_cents: 1599, score: nil, feedback: nil)
+
+# p2 đã có score -> Sẵn sàng cho test POST 422 (already reviewed)
+OrderItem.create!(order: order1, product: p2, quantity: 1, unit_price_cents: 2950, score: 5, feedback: "Áo sơ mi rất đẹp, mặc vừa vặn!")
+
+puts "=== Seeds for Reviews loaded successfully! ==="
