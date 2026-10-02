@@ -1,4 +1,4 @@
-@order = current_user.orders.find_by(id: params[:id]) class Api::V1::CartItemsController < Api::V1::BaseController
+class Api::V1::CartItemsController < Api::V1::BaseController
   before_action :authenticate_api_user!
   before_action :set_cart
   before_action :set_cart_item, only: [:update, :destroy]
