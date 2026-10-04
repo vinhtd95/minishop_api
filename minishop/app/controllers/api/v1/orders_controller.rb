@@ -39,6 +39,7 @@ class Api::V1::OrdersController < Api::V1::BaseController
       cart.cart_items.destroy_all
     end
 
+    OrderMailer.confirmation(order).deliver_later
     render json: format_order_response(order), status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
