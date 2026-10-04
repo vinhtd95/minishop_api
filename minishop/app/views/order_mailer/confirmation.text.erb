@@ -1,0 +1,9 @@
+Cảm ơn bạn đã mua sắm tại Minishop!
+
+Mã đơn hàng: #<%= @order.id %>
+Tổng thanh toán: <%= @order.total_cents %> cents
+
+Chi tiết sản phẩm:
+<% @order.order_items.each do |item| %>
+- <%= item.product.name %> x <%= item.quantity %>: <%= item.unit_price_cents * item.quantity %> cents
+<% end %>

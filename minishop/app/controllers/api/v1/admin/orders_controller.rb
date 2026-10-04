@@ -14,6 +14,8 @@ class Api::V1::Admin::OrdersController < Api::V1::BaseController
     new_status = params[:status]
     if @order.valid_transition_to?(new_status)
       if @order.update(status: new_status)
+        # Gửi email nếu trạng thái mới là shipped
+        OrderMailer.shipped(@order).deliver_later if new_status.to_s == "shipped"
         render json: format_order_response(@order), status: :ok
       end
     else
