@@ -72,10 +72,20 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   # Save sent emails as file in tmp/mails/
-  config.action_mailer.delivery_method = :file
-  config.action_mailer.file_settings = { location: Rails.root.join("tmp/mails") }
+  config.action_mailer.delivery_method = :smtp
   # Trigger delivery process on development
   config.action_mailer.perform_deliveries = true
   # Config default host for URL in email 
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: 'gmail.com',
+    user_name: ENV['GMAIL_USERNAME'],  
+    password: ENV['GMAIL_PASSWORD'],       
+    authentication:'plain',
+    enable_starttls_auto: true
+  }
+  config.active_job.queue_adapter = :async
 end

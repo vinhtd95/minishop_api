@@ -4,6 +4,7 @@ class OrderMailer < ApplicationMailer
   #
   #   en.order_mailer.confirmation.subject
   #
+  default from: 'dongxuanduc2205@gmail.com'
   def confirmation(order)
     @order = order 
     @user = order.user 
