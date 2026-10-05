@@ -97,3 +97,6 @@ OrderItem.create!(order: order1, product: p1, quantity: 1, unit_price_cents: 159
 OrderItem.create!(order: order1, product: p2, quantity: 1, unit_price_cents: 2950, score: 5, feedback: "Áo sơ mi rất đẹp, mặc vừa vặn!")
 
 puts "=== Seeds for Reviews loaded successfully! ==="
+
+  # "email": "dongxuanducpersonal@gmail.com", email test SMTP
+  # "password": "password123"

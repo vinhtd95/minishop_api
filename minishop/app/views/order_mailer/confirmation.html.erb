@@ -1,5 +1,58 @@
-<h1>Order#confirmation</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <style>
+      body { font-family: Arial, sans-serif; color: #333; }
+      .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+      h1 { color: #e74c3c; }
+      table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+      th { background-color: #f2f2f2; text-align: left; padding: 10px; }
+      td { padding: 10px; border-bottom: 1px solid #ddd; }
+      .total { font-size: 18px; font-weight: bold; color: #e74c3c; }
+      .footer { margin-top: 30px; font-size: 13px; color: #888; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🛍️ Xác nhận đơn hàng #<%= @order.id %></h1>
 
-<p>
-  <%= @greeting %>, find me in app/views/order_mailer/confirmation.html.erb
-</p>
+      <p>Xin chào <strong><%= @user.email %></strong>,</p>
+      <p>Cảm ơn bạn đã mua sắm tại <strong>Minishop</strong>! Đơn hàng của bạn đã được đặt thành công.</p>
+
+      <h3>Chi tiết đơn hàng</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @order.order_items.includes(:product).each do |item| %>
+            <tr>
+              <td><%= item.product.name %></td>
+              <td><%= item.quantity %></td>
+              <td><%= number_to_currency(item.unit_price_cents / 100.0, unit: "₫", separator: ",", delimiter: ".", format: "%n %u") %></td>
+              <td><%= number_to_currency((item.unit_price_cents * item.quantity) / 100.0, unit: "₫", separator: ",", delimiter: ".", format: "%n %u") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <p class="total">
+        Tổng cộng: <%= number_to_currency(@order.total_cents / 100.0, unit: "₫", separator: ",", delimiter: ".", format: "%n %u") %>
+      </p>
+
+      <p>Trạng thái: <strong><%= @order.status.capitalize %></strong></p>
+      <p>Ngày đặt: <strong><%= @order.created_at.strftime("%d/%m/%Y %H:%M") %></strong></p>
+
+      <div class="footer">
+        <p>Nếu bạn có thắc mắc, vui lòng liên hệ chúng tôi.</p>
+        <p>Trân trọng,<br><strong>Đội ngũ Minishop</strong></p>
+      </div>
+    </div>
+  </body>
+</html>

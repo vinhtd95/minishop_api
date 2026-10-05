@@ -1,5 +1,79 @@
-<h1>Order#shipped</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <style>
+      body { font-family: Arial, sans-serif; color: #333; }
+      .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+      h1 { color: #27ae60; }
+      .badge {
+        display: inline-block;
+        background-color: #27ae60;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+      th { background-color: #f2f2f2; text-align: left; padding: 10px; }
+      td { padding: 10px; border-bottom: 1px solid #ddd; }
+      .total { font-size: 18px; font-weight: bold; color: #27ae60; }
+      .info-box {
+        background-color: #eafaf1;
+        border-left: 4px solid #27ae60;
+        padding: 12px 16px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+      .footer { margin-top: 30px; font-size: 13px; color: #888; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚚 Đơn hàng đã được giao vận chuyển!</h1>
+      <span class="badge">✔ Đã giao cho đơn vị vận chuyển</span>
 
-<p>
-  <%= @greeting %>, find me in app/views/order_mailer/shipped.html.erb
-</p>
+      <p>Xin chào <strong><%= @user.email %></strong>,</p>
+      <p>Tin vui! Đơn hàng <strong>#<%= @order.id %></strong> của bạn đã được đóng gói và bàn giao cho đơn vị vận chuyển. Hàng sẽ sớm đến tay bạn!</p>
+
+      <div class="info-box">
+        📦 Mã đơn hàng: <strong>#<%= @order.id %></strong><br>
+        📅 Ngày đặt: <strong><%= @order.created_at.strftime("%d/%m/%Y %H:%M") %></strong><br>
+        🔄 Trạng thái: <strong>Đang vận chuyển</strong>
+      </div>
+
+      <h3>Chi tiết đơn hàng</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @order.order_items.includes(:product).each do |item| %>
+            <tr>
+              <td><%= item.product.name %></td>
+              <td><%= item.quantity %></td>
+              <td><%= number_to_currency(item.unit_price_cents / 100.0, unit: "₫", separator: ",", delimiter: ".", format: "%n %u") %></td>
+              <td><%= number_to_currency((item.unit_price_cents * item.quantity) / 100.0, unit: "₫", separator: ",", delimiter: ".", format: "%n %u") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <p class="total">
+        Tổng cộng: <%= number_to_currency(@order.total_cents / 100.0, unit: "₫", separator: ",", delimiter: ".", format: "%n %u") %>
+      </p>
+
+      <div class="footer">
+        <p>Nếu bạn có thắc mắc về đơn hàng, vui lòng liên hệ chúng tôi.</p>
+        <p>Trân trọng,<br><strong>Đội ngũ Minishop</strong></p>
+      </div>
+    </div>
+  </body>
+</html>
