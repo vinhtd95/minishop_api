@@ -5,7 +5,7 @@ class Api::V1::CategoriesController < Api::V1::BaseController
   before_action :set_category, only: [:show, :update, :destroy]
 
   #GET /api/vi/categories
-  def index 
+  # def index 
     categories = Category.all 
     render json: categories, status: :ok
   end

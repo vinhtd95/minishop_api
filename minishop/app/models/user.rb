@@ -8,4 +8,6 @@ class User < ApplicationRecord
   has_one :cart, dependent: :destroy 
   has_many :orders, dependent: :destroy 
   has_many :order_items, through: :orders
+  has_many :conversations, dependent: :destroy
+  has_many :messages, foreign_key: :sender_id, dependent: :destroy
 end
