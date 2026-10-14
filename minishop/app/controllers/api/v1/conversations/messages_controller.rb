@@ -27,8 +27,8 @@ class Api::V1::Conversations::MessagesController < Api::V1::BaseController
       return render json: {error: "Conversation not found"}, status: :not_found 
     end
 
-    unless @conversation.participants?(current_user)
-      render json: {error: "Forbidden"} status: :forbidden
+    unless @conversation.participant?(current_user)
+      render json: { error: "Forbidden" }, status: :forbidden
     end
   end
 
