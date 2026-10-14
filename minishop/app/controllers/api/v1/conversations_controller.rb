@@ -6,7 +6,7 @@ class Api::V1::ConversationsController < Api::V1::BaseController
     else 
       current_user.conversations.order(updated_at: :desc)
     end
-    render json: conversation.map{|conv| format_conversation(conv)}, status: :ok
+    render json: conversations.map { |conv| format_conversation(conv) }, status: :ok
   end
 
   #POST /api/v1/conversations
