@@ -6,8 +6,8 @@ class Api::V1::Conversations::MessagesController < Api::V1::BaseController
     #Pagination 
     page = [params[:page].to_i, 1].max
     per_page = (params[:per_page] || 20).to_i
-    per_page = [[oer_page, 1].max, 100].min 
-    offset = (page - 1)* per_page 
+    per_page = [[per_page, 1].max, 100].min
+    offset = (page - 1) * per_page
 
     # Sắp xếp từ cũ nhất đến mới nhất (oldest -> newest)
     messages = @conversation.messages
@@ -17,7 +17,7 @@ class Api::V1::Conversations::MessagesController < Api::V1::BaseController
                             .limit(per_page)
     render json: messages.map { |msg| format_message(msg) }, status: :ok
   end
-  
+
   private 
   def set_conversation 
     conversation_id = params[:conversation_id] 
