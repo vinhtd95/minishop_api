@@ -34,6 +34,11 @@ Rails.application.routes.draw do
       resources :products, only: [:index, :show] do
         resources :reviews, only: [:index, :create]
       end
+
+      #chat $ conversation
+      resources :conversations, only: [:index, :create] do
+        resources :messages, only: [:index], module: :conversations
+      end
     end
   end
 end

@@ -29,7 +29,7 @@ class ChatChannel < ApplicationCable::Channel
           body: message.body, 
           sender_id: message.sender_id,
           sender_role: current_user.role,
-          created_at: meesage.created_at
+          created_at: message.created_at
         }
       )
     end
