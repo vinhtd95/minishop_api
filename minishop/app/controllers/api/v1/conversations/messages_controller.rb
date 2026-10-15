@@ -8,13 +8,9 @@ class Api::V1::Conversations::MessagesController < Api::V1::BaseController
     per_page = (params[:per_page] || 20).to_i
     per_page = [[per_page, 1].max, 100].min
     offset = (page - 1) * per_page
-
-    # Sắp xếp từ cũ nhất đến mới nhất (oldest -> newest)
-    messages = @conversation.messages
-                            .includes(:sender)
-                            .order(created_at: :asc)
-                            .offset(offset)
-                            .limit(per_page)
+    
+    # Lấy các tin nhắn mới nhất (latest messages) rồi đảo lại theo thứ tự thời gian tăng dần
+    messages = @conversation.messages.includes(:sender).order(created_at: :desc).offset(offset).limit(per_page).reverse
     render json: messages.map { |msg| format_message(msg) }, status: :ok
   end
 
